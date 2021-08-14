@@ -81,16 +81,16 @@ hizo(hermione, responder("Donde se encuentra un Bezoar", 15, snape)).
 hizo(hermione, responder("Wingardium Leviosa", 25, flitwick)).
 hizo(draco, irA(mazmorras)).
 
-casaGanadora(Casa):-
+/*casaGanadora(Casa):-
     casa(Casa),
-    forall(otraCasa(Casa, OtraCasa), masPuntos(Casa, OtraCasa)).
+    forall(otraCasa(Casa, OtraCasa), masPuntos(Casa, OtraCasa)).*/
 
 otraCasa(Casa, OtraCasa):-
     casa(Casa),
     casa(OtraCasa),
     Casa \= OtraCasa.
 
-masPuntos(Casa, OtraCasa):-
+/*masPuntos(Casa, OtraCasa):-
     puntosDeCasa(Casa, PuntosMayor),
     puntosDeCasa(OtraCasa, PuntosMenor),
-    PuntosMayor > PuntosMenor.
+    PuntosMayor > PuntosMenor.*/

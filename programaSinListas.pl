@@ -1,9 +1,32 @@
-mago(harry, mestiza, [coraje, amistad, orgullo, inteligencia]).
-mago(ron, pura, [amistad, diversion, coraje]).
-mago(hermione, impura, [inteligencia, coraje, responsabilidad, amistad, orgullo]).
-mago(hannahAbbott, mestiza, [amistad, diversion]).
-mago(draco, pura, [inteligencia, orgullo]).
-mago(lunaLovegood, mestiza, [inteligencia, responsabilidad, amistad, coraje]).
+mago(Mago):- sangre(Mago, _).
+
+caracteristica(harry, coraje).
+caracteristica(harry, amistad).
+caracteristica(harry, orgullo).
+caracteristica(harry, inteligencia).
+caracteristica(ron, amistad).
+caracteristica(ron, diversion).
+caracteristica(ron, coraje).
+caracteristica(hermione, inteligencia).
+caracteristica(hermione, coraje).
+caracteristica(hermione, responsabilidad).
+caracteristica(hermione, amistad).
+caracteristica(hermione, orgullo).
+caracteristica(hannahAbbott, amistad).
+caracteristica(hannahAbbott, diversion).
+caracteristica(draco, inteligencia).
+caracteristica(draco, orgullo).
+caracteristica(lunaLovegood, inteligencia).
+caracteristica(lunaLovegood, responsabilidad).
+caracteristica(lunaLovegood, amistad).
+caracteristica(lunaLovegood, coraje).
+
+sangre(harry, mestiza).
+sangre(ron, pura).
+sangre(hermione, impura).
+sangre(hannahAbbott, mestiza).
+sangre(draco, pura).
+sangre(lunaLovegood, mestiza).
 
 odia(harry, slytherin).
 odia(draco, hufflepuff).
@@ -23,30 +46,28 @@ caracteriza(hufflepuff, amistad).
 caracteriza(hufflepuff, diversion).
 
 permiteEntrar(slytherin, Mago):-
-    mago(Mago, pura, _).
+    sangre(Mago, pura).
 permiteEntrar(Casa, Mago):-
     casa(Casa),
-    Casa \= slytherin,
-    mago(Mago,_,_).
+    mago(Mago),
+    Casa \= slytherin.
 
 tieneCaracter(Mago, Casa):-
-    mago(Mago, _, Caracteristicas),
+    mago(Mago),
     casa(Casa),
-    forall(caracteriza(Casa, Caracter), member(Caracter, Caracteristicas)).
+    forall(caracteriza(Casa, Caracteristica), caracteristica(Mago, Caracteristica)).
 
 casaPosible(Mago, Casa):-
-    mago(Mago, _, _),
-    casa(Casa),
-    not(odia(Mago, Casa)),
     tieneCaracter(Mago, Casa),
-    permiteEntrar(Casa, Mago).
+    permiteEntrar(Casa, Mago),
+    not(odia(Mago, Casa)).
 
 cadenaDeAmistades(ListaMagos):-
     amistosos(ListaMagos),
     cadenaCasas(ListaMagos).
 
 amistosos(ListaMagos):-
-    forall( member(Mago, ListaMagos), ( mago(Mago, _, Caracteristicas), member(amistad, Caracteristicas) ) ).
+    forall(member(Mago, ListaMagos), caracteristica(Mago, amistad)).
 
 cadenaCasas([_]).
 cadenaCasas([Mago, OtroMago | Cola ]):-
@@ -72,17 +93,3 @@ hizo(hermione, irA(tercerPiso)).
 hizo(hermione, responder("Donde se encuentra un Bezoar", 15, snape)).
 hizo(hermione, responder("Wingardium Leviosa", 25, flitwick)).
 hizo(draco, irA(mazmorras)).
-
-/*casaGanadora(Casa):-
-    casa(Casa),
-    forall(otraCasa(Casa, OtraCasa), masPuntos(Casa, OtraCasa)).*/
-
-otraCasa(Casa, OtraCasa):-
-    casa(Casa),
-    casa(OtraCasa),
-    Casa \= OtraCasa.
-
-/*masPuntos(Casa, OtraCasa):-
-    puntosDeCasa(Casa, PuntosMayor),
-    puntosDeCasa(OtraCasa, PuntosMenor),
-    PuntosMayor > PuntosMenor.*/
